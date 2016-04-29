@@ -8,6 +8,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="src/css/bootstrap.min.css" 
 <script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="script.js"></script>
 <script   src="https://code.jquery.com/jquery-2.2.3.js"   integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4="   crossorigin="anonymous"></script>
 </head>
 <body>
@@ -44,8 +45,8 @@ foreach ($result as $row){
 echo "Отладочная информация: ";
 echo $row['timespan'] . "\t" . $row['visits']. "\n";
 print_r($row);
-echo "<br /><hr>";
-echo "<br /> По вашему запросу, <strong>всего</strong> бутылок прошло:<mark>". $row['Ok']."</mark><br />";
+echo "<br /><hr><section class='data-select'>";
+echo "<br /><p> По вашему запросу, <strong>всего</strong> бутылок прошло:<mark>".$row['Ok']."</mark></p><br />";
 echo "<strong>Сброшено</strong>:<mark>". $row['Rejected']."</mark><br />";
 echo "<strong>Системно сброшено</strong>:<mark>". $row['QC_Rejected']."</mark><br />";
 echo "Рандомный формат времени". $row['custom_date'];
@@ -53,7 +54,7 @@ echo "<br /><hr>";
 }
 }
 if (date('Y-m-d H:i') >=strtotime('Y-m-d 09:00') and date('Y-m-d H:i') <=strtotime('Y-m-d 21:00',date('Y-m-d H:i'))){
-echo "Сейчас дневная смена";
+echo "Сейчас дневная смена</section>";
 }
 else {
 
@@ -70,13 +71,16 @@ $d->modify("-1 day");
 
 echo $d->format("Y-m-d\TH:i")
 ?>
-
+ 
 <table cellpadding="2px" cellspacing="1px" class="table table-hover">
 <tr align="left" style="font-size: 14px;"><th>Начальная дата</th><th>Конечная дата и время</th><th>Номер линии</th><th>Тип контрольного оборудования</th><th></th></tr>
 <tr align="left" style="font-size: 10px;"><th>Формат:ГГГГ-ММ-ДДTЧЧ:ММ</th><th>Формат:ГГГГ-ММ-ДДTЧЧ:ММ</th><th></th><th></th><th></th></tr>
+<section class='comm-input'>
 <form action="index.php" method="post">
+    
 <td><input type="datetime-local" class="form-control" name="date_start" value="<? echo $time_val1;?>"></input></td>
 <td><input type="datetime-local" class="form-control" name="date_end" value="<? echo $time_val2;?>"></input></td>
+</div>
 <?
 
 
@@ -99,13 +103,13 @@ echo $d->format("Y-m-d\TH:i")
 </tr>
 </table>
 </form>
-
+ </section>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
-<p>123</p>
+
 </body>
 </html>
 
