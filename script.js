@@ -1,9 +1,9 @@
 var main = function () {
     "use strict";
-   $(".btn btn-primary").on("click", function (events){
- var $drawHere =$("<p>").text("text asdasdasd");
+   
+ var $drawHere =$("<p>").text($row['Ok']);
  $(".data-select").append($drawHere);
- console.log("test11111");
-    });
+ 
+   
 };
 $(document).ready(main);

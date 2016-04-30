@@ -8,11 +8,11 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="src/css/bootstrap.min.css" 
 <script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="script.js"></script>
+
 <script   src="https://code.jquery.com/jquery-2.2.3.js"   integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4="   crossorigin="anonymous"></script>
 </head>
 <body>
-
+<script src="script.js"></script>
 <?
 require_once("./db_param.php");
 
@@ -41,41 +41,44 @@ $result=$dbcon->query($q);
 if (isset($_POST['req_info'])){ get_data($result);}
 //Собственно сама функция выводящая результат запроса
 function get_data($result){
+   global $dev;
+   global $line;
+   global $ds;
+   global $de;
 foreach ($result as $row){
 echo "Отладочная информация: ";
-echo $row['timespan'] . "\t" . $row['visits']. "\n";
+
 print_r($row);
-echo "<br /><hr><section class='data-select'>";
-echo "<br /><p> По вашему запросу, <strong>всего</strong> бутылок прошло:<mark>".$row['Ok']."</mark></p><br />";
+echo "<br /><hr><section class='data-select'></section>";
+echo "<strong>Линия:</strong>
+".$line."<br />";
+echo "<strong>Тип оборудования:</strong> <mark>".$row['Device_Type']."</mark><br />";
+echo "<strong>Начало запроса:</strong> ".date("d-m-Y H:i",strtotime($ds))."<br />";
+echo "<strong>Конец запроса:</strong> ".date("d-m-y H:i",strtotime($de))."<br />";
+echo "По вашему запросу, <strong>всего</strong>";
+if (date('Y-m-d H:i',$ds) >= date('Y-m-d 21:00') and date('Y-m-d H:i',$de) <=date('Y-m-d 09:00')){
+echo " за ночную смену ";
+}
+else {
+echo " за дневную смену ";
+};
+echo "Бутылок прошло:<mark>".$row['Ok']."</mark><br />";
 echo "<strong>Сброшено</strong>:<mark>". $row['Rejected']."</mark><br />";
 echo "<strong>Системно сброшено</strong>:<mark>". $row['QC_Rejected']."</mark><br />";
-echo "Рандомный формат времени". $row['custom_date'];
+
 echo "<br /><hr>";
 }
 }
-if (date('Y-m-d H:i') >=strtotime('Y-m-d 09:00') and date('Y-m-d H:i') <=strtotime('Y-m-d 21:00',date('Y-m-d H:i'))){
-echo "Сейчас дневная смена</section>";
-}
-else {
 
-echo date('Y-m-d H:i');
-echo "Сейчас ночная смена";
-}
 $time_val1= date("Y-m-d\TH:i",strtotime("-1 day",strtotime(date('d.m.Y\T09:00',time()))));
 $time_val2= date("Y-m-d\TH:i",strtotime(date('d.m.Y\T21:00',time())));
-$date = "ГГГГ-ММ-ДД";
 
-$d = new DateTime($time_val1);
-
-$d->modify("-1 day");
-
-echo $d->format("Y-m-d\TH:i")
 ?>
  
 <table cellpadding="2px" cellspacing="1px" class="table table-hover">
 <tr align="left" style="font-size: 14px;"><th>Начальная дата</th><th>Конечная дата и время</th><th>Номер линии</th><th>Тип контрольного оборудования</th><th></th></tr>
 <tr align="left" style="font-size: 10px;"><th>Формат:ГГГГ-ММ-ДДTЧЧ:ММ</th><th>Формат:ГГГГ-ММ-ДДTЧЧ:ММ</th><th></th><th></th><th></th></tr>
-<section class='comm-input'>
+
 <form action="index.php" method="post">
     
 <td><input type="datetime-local" class="form-control" name="date_start" value="<? echo $time_val1;?>"></input></td>
@@ -97,13 +100,14 @@ echo $d->format("Y-m-d\TH:i")
 <option value="2">iCam</option>
 <option value="3">SealCam</option>
 </select></td>
+<section class='comme-input'>
     <input type="hidden" name="req_info" value="yes" />
- <td>  <input type="submit" value="Запрос" class="btn btn-primary"/></td>
-
+ <td>  <button class="btn btn-primary"> Запрос</button></td>
+ </section>
 </tr>
 </table>
 </form>
- </section>
+
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
