@@ -14,6 +14,11 @@
 <body>
 <script src="script.js"></script>
 <?
+$login=$_POST['login'];
+$password=$_POST['password'];
+if ($login == "admin" and $password == "q123123"){
+    
+
 require_once("./db_param.php");
 
 
@@ -107,7 +112,23 @@ $time_val2= date("Y-m-d\TH:i",strtotime(date('d.m.Y\T21:00',time())));
 </tr>
 </table>
 </form>
-
+<?
+}
+else {
+?>
+<form action="index.php" method="post">
+    <table>
+        <tr><th>Логин</th><th>Пароль</th><th></th></tr>
+        <tr>
+    <td><input type="text" name="login" /></td>
+    <td><input type="password" name="password" /></td>
+    <td><button class="btn btn-primary">Войти</button></td>
+    </tr>
+    </table>
+</form>   
+<?
+};
+?>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
