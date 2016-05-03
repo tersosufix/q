@@ -14,9 +14,6 @@
 <body>
 <script src="script.js"></script>
 <?
-$login=$_POST['login'];
-$password=$_POST['password'];
-if ($login == "admin" and $password == "q123123"){
     
 
 require_once("./db_param.php");
@@ -59,7 +56,7 @@ echo "<strong>Линия:</strong>
 ".$line."<br />";
 echo "<strong>Тип оборудования:</strong> <mark>".$row['Device_Type']."</mark><br />";
 echo "<strong>Начало запроса:</strong> ".date("d-m-Y H:i",strtotime($ds))."<br />";
-echo "<strong>Конец запроса:</strong> ".date("d-m-y H:i",strtotime($de))."<br />";
+echo "<strong>Конец запроса:</strong> ".date("d-m-Y H:i",strtotime($de))."<br />";
 echo "По вашему запросу, <strong>всего</strong>";
 if (date('Y-m-d H:i',$ds) >= date('Y-m-d 21:00') and date('Y-m-d H:i',$de) <=date('Y-m-d 09:00')){
 echo " за ночную смену ";
@@ -85,10 +82,8 @@ $time_val2= date("Y-m-d\TH:i",strtotime(date('d.m.Y\T21:00',time())));
 <tr align="left" style="font-size: 10px;"><th>Формат:ГГГГ-ММ-ДДTЧЧ:ММ</th><th>Формат:ГГГГ-ММ-ДДTЧЧ:ММ</th><th></th><th></th><th></th></tr>
 
 <form action="index.php" method="post">
-    
-<td><input type="datetime-local" class="form-control" name="date_start" value="<? echo $time_val1;?>"></input></td>
-<td><input type="datetime-local" class="form-control" name="date_end" value="<? echo $time_val2;?>"></input></td>
-</div>
+<td><input type="datetime-local" class="form-control" name="date_start" value="<? if($_POST['date_start']){echo $ds;} else{echo $time_val1;};?>"></input></td>
+<td><input type="datetime-local" class="form-control" name="date_end" value="<? if($_POST['date_start']){echo $de;} else{ echo $time_val2;}?>"></input></td></div>
 <?
 
 
@@ -112,23 +107,7 @@ $time_val2= date("Y-m-d\TH:i",strtotime(date('d.m.Y\T21:00',time())));
 </tr>
 </table>
 </form>
-<?
-}
-else {
-?>
-<form action="index.php" method="post">
-    <table>
-        <tr><th>Логин</th><th>Пароль</th><th></th></tr>
-        <tr>
-    <td><input type="text" name="login" /></td>
-    <td><input type="password" name="password" /></td>
-    <td><button class="btn btn-primary">Войти</button></td>
-    </tr>
-    </table>
-</form>   
-<?
-};
-?>
+
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
